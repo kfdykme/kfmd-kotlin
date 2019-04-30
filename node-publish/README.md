@@ -1,15 +1,31 @@
 # kfmd
 
 ## about
-写这个的原因是为了自己实现一个markdown渲染工具，之前写过但是没有存到git上，有点烦躁所以一直没有再实现
+这是一个用kotlin写的，可以在java/js中使用的kfmd引擎, 刚从原生js转过来，有可能有问题
+
+## Done
+
+- Title
+- Hr
+- List
+- Code
+- Blockquote
 
 ## todo
-- first
-  - 实现基本的markdown功能
-    - 标题
-    - 列表
-    - 超链接
-    - 图片
-    - 一般我用得上的就这一些了，之后再照着写吧
-- second
-  - 实现转化成树/图的结构,
+
+- inline features
+
+
+## How to use
+
+``` shell
+ cd $(you node project dir)
+ npm i kfmd
+```
+
+在文件中:
+``` javascript
+
+```
+
+wait a minutes

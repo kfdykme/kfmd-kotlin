@@ -1,3 +1,3 @@
- const kfmd = require('../lib/kfmd')
+const kfmd = require('../lib/lib')
 
- module.exports = kfmd.xyz.kfdykme.kfmd.js.JsCore
+module.exports = kfmd
