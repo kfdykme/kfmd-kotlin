@@ -47,7 +47,8 @@ task copyJs(type: Copy, group: 'custom') {
 
 task complieKotlin (type: Exec, group: 'custom') {
     workingDir '.'
-    commandLine 'kotlinc', "build/source", '-d', 'out/kotlin/kfmd.jar'
+    commandLine 'kotlinc', "build/source", '-d', 'out/kotlin/kfmdls' +
+            ''
 
 }
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kfmd.iml" filepath="$PROJECT_DIR$/.idea/modules/kfmd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kfmd-kotlin.iml" filepath="$PROJECT_DIR$/kfmd-kotlin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kfmd-kotlin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kfmd-kotlin.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kfmd-kotlin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/kfmd-kotlin.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/new-kfmd-kotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/new-kfmd-kotlin.iml" />
+    </modules>
+  </component>
+</project>
