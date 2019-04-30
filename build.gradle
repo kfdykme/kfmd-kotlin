@@ -54,7 +54,7 @@ task complieKotlin (type: Exec, group: 'custom') {
 
 task complieJs (type: Exec, group: 'custom') {
     workingDir '.'
-    commandLine 'kotlinc-js', '-output', 'out/js/lib.js' , "build/source", '-module-kind', 'commonjs'
+    commandLine 'kotlinc-js', '-output', 'node-publish/lib/kfmd.js' , "build/source", '-module-kind', 'commonjs'
 }
 
 task cleanBuild ( group: 'custom'){
