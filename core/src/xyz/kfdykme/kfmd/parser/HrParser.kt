@@ -6,6 +6,9 @@ class HrParser : BaseParser{
     companion object {
         const val DEFAULT_HR = "<hr>"
 
+/**
+ * 暂时不需要用这个单例，所以注释掉了
+ */
 //        private var sInstance: HrParser? = null
 //            get() {
 //                if(field == null) {
@@ -14,6 +17,7 @@ class HrParser : BaseParser{
 //
 //                return field
 //            }
+
 
         fun parse(source: HrObject) :String{
             return DEFAULT_HR

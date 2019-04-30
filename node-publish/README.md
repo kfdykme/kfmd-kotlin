@@ -25,7 +25,7 @@
 
 在文件中:
 ``` javascript
+var kfmd = require('kfmd')
 
+kfmd.string2mdhtml(text)
 ```
-
-wait a minutes

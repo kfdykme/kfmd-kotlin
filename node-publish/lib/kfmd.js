@@ -1,23 +1,23 @@
 (function (_, Kotlin) {
   'use strict';
-  var Regex_init = Kotlin.kotlin.text.Regex_init_61zpoe$;
-  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var joinToString = Kotlin.kotlin.collections.joinToString_fmv235$;
   var equals = Kotlin.equals;
   var throwCCE = Kotlin.throwCCE;
   var MutableList = Kotlin.kotlin.collections.MutableList;
-  var println = Kotlin.kotlin.io.println_s8jyv4$;
   var count = Kotlin.kotlin.sequences.count_veqyi0$;
   var ensureNotNull = Kotlin.ensureNotNull;
   var Unit = Kotlin.kotlin.Unit;
   var indexOf = Kotlin.kotlin.text.indexOf_l5u8uk$;
   var Kind_CLASS = Kotlin.Kind.CLASS;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var StringBuilder_init = Kotlin.kotlin.text.StringBuilder_init_za3lpa$;
   var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var Regex_init = Kotlin.kotlin.text.Regex_init_61zpoe$;
+  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
-  var last = Kotlin.kotlin.collections.last_2p1efm$;
   var replace = Kotlin.kotlin.text.replace_680rmw$;
+  var last = Kotlin.kotlin.collections.last_2p1efm$;
   BlockquoteObject.prototype = Object.create(MarkDownObject.prototype);
   BlockquoteObject.prototype.constructor = BlockquoteObject;
   CodeObject.prototype = Object.create(MarkDownObject.prototype);
@@ -35,39 +35,131 @@
   StrongObject.prototype = Object.create(InlineTransObject.prototype);
   StrongObject.prototype.constructor = StrongObject;
   function Core() {
-    Core$Companion_getInstance();
-  }
-  function Core$Companion() {
-    Core$Companion_instance = this;
-    this.REGEX_LINE = Regex_init('.*?((\r)?\n)');
-    this.REGEX_LIST = Regex_init('^( )*- .*');
-    this.REGEX_LIST_GRADE = Regex_init('- ');
-    this.REGEX_LIST_CONTENT = Regex_init('- (.*)');
-    this.REGEX_CODE = Regex_init('^```');
-    this.REGEX_TITLE = Regex_init('^#+ ');
-    this.REGEX_TITLE_GRADE = Regex_init('#');
-    this.REGEX_TITLE_CONTENT = Regex_init('^#+ (.*)');
-    this.REGEX_HR = Regex_init('^-----*(\n)');
-    this.REGEX_BLOCKQUOTE = Regex_init('^>(.*)');
-  }
-  Core$Companion.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'Companion',
-    interfaces: []
-  };
-  var Core$Companion_instance = null;
-  function Core$Companion_getInstance() {
-    if (Core$Companion_instance === null) {
-      new Core$Companion();
-    }
-    return Core$Companion_instance;
   }
   Core.prototype.trans_61zpoe$ = function (source) {
-    var out = '';
     var res = this.transObjects_qjosur$_0(source);
     res = this.transMultLine_lb8eyc$_0(res);
     res = this.transSingleLine_kbv4f8$_0(res);
-    return joinToString(res, '');
+    return this.transInLine_h3ypr2$_0(joinToString(res, ''));
+  };
+  Core.prototype.transInLine_si6qm9$_0 = function (source) {
+    return ArrayList_init();
+  };
+  Core.prototype.transInLine_h3ypr2$_0 = function (source) {
+    var regex = MdRegex$Companion_getInstance().REGEX_STRONG;
+    var replace_20wsma$result;
+    replace_20wsma$break: do {
+      var match = regex.find_905azu$(source);
+      if (match == null) {
+        replace_20wsma$result = source.toString();
+        break replace_20wsma$break;
+      }
+      var lastStart = 0;
+      var length = source.length;
+      var sb = StringBuilder_init(length);
+      do {
+        var foundMatch = ensureNotNull(match);
+        sb.append_ezbsdh$(source, lastStart, foundMatch.range.start);
+        var tmp$ = sb.append_gw00v9$;
+        var content = !equals(foundMatch.groupValues.get_za3lpa$(1), '') ? foundMatch.groupValues.get_za3lpa$(2) : foundMatch.groupValues.get_za3lpa$(4);
+        tmp$.call(sb, InLineParser$Companion_getInstance().parseStrong_61zpoe$(content));
+        lastStart = foundMatch.range.endInclusive + 1 | 0;
+        match = foundMatch.next();
+      }
+       while (lastStart < length && match != null);
+      if (lastStart < length) {
+        sb.append_ezbsdh$(source, lastStart, length);
+      }
+      replace_20wsma$result = sb.toString();
+    }
+     while (false);
+    var $receiver = replace_20wsma$result;
+    var regex_0 = MdRegex$Companion_getInstance().REGEX_EM;
+    var replace_20wsma$result_0;
+    replace_20wsma$break: do {
+      var match_0 = regex_0.find_905azu$($receiver);
+      if (match_0 == null) {
+        replace_20wsma$result_0 = $receiver.toString();
+        break replace_20wsma$break;
+      }
+      var lastStart_0 = 0;
+      var length_0 = $receiver.length;
+      var sb_0 = StringBuilder_init(length_0);
+      do {
+        var foundMatch_0 = ensureNotNull(match_0);
+        sb_0.append_ezbsdh$($receiver, lastStart_0, foundMatch_0.range.start);
+        var tmp$_0 = sb_0.append_gw00v9$;
+        var content_0 = !equals(foundMatch_0.groupValues.get_za3lpa$(1), '') ? foundMatch_0.groupValues.get_za3lpa$(2) : foundMatch_0.groupValues.get_za3lpa$(4);
+        tmp$_0.call(sb_0, InLineParser$Companion_getInstance().parseEm_61zpoe$(content_0));
+        lastStart_0 = foundMatch_0.range.endInclusive + 1 | 0;
+        match_0 = foundMatch_0.next();
+      }
+       while (lastStart_0 < length_0 && match_0 != null);
+      if (lastStart_0 < length_0) {
+        sb_0.append_ezbsdh$($receiver, lastStart_0, length_0);
+      }
+      replace_20wsma$result_0 = sb_0.toString();
+    }
+     while (false);
+    var $receiver_0 = replace_20wsma$result_0;
+    var regex_1 = MdRegex$Companion_getInstance().REGEX_IMAGE;
+    var replace_20wsma$result_1;
+    replace_20wsma$break: do {
+      var match_1 = regex_1.find_905azu$($receiver_0);
+      if (match_1 == null) {
+        replace_20wsma$result_1 = $receiver_0.toString();
+        break replace_20wsma$break;
+      }
+      var lastStart_1 = 0;
+      var length_1 = $receiver_0.length;
+      var sb_1 = StringBuilder_init(length_1);
+      do {
+        var foundMatch_1 = ensureNotNull(match_1);
+        sb_1.append_ezbsdh$($receiver_0, lastStart_1, foundMatch_1.range.start);
+        var tmp$_1 = sb_1.append_gw00v9$;
+        var href = foundMatch_1.groupValues.get_za3lpa$(2);
+        var desc = foundMatch_1.groupValues.get_za3lpa$(1);
+        tmp$_1.call(sb_1, InLineParser$Companion_getInstance().parseImg_puj7f4$(href, desc));
+        lastStart_1 = foundMatch_1.range.endInclusive + 1 | 0;
+        match_1 = foundMatch_1.next();
+      }
+       while (lastStart_1 < length_1 && match_1 != null);
+      if (lastStart_1 < length_1) {
+        sb_1.append_ezbsdh$($receiver_0, lastStart_1, length_1);
+      }
+      replace_20wsma$result_1 = sb_1.toString();
+    }
+     while (false);
+    var $receiver_1 = replace_20wsma$result_1;
+    var regex_2 = MdRegex$Companion_getInstance().REGEX_HYPER_LINK;
+    var replace_20wsma$result_2;
+    replace_20wsma$break: do {
+      var match_2 = regex_2.find_905azu$($receiver_1);
+      if (match_2 == null) {
+        replace_20wsma$result_2 = $receiver_1.toString();
+        break replace_20wsma$break;
+      }
+      var lastStart_2 = 0;
+      var length_2 = $receiver_1.length;
+      var sb_2 = StringBuilder_init(length_2);
+      do {
+        var foundMatch_2 = ensureNotNull(match_2);
+        sb_2.append_ezbsdh$($receiver_1, lastStart_2, foundMatch_2.range.start);
+        var tmp$_2 = sb_2.append_gw00v9$;
+        var href_0 = foundMatch_2.groupValues.get_za3lpa$(2);
+        var desc_0 = foundMatch_2.groupValues.get_za3lpa$(1);
+        tmp$_2.call(sb_2, InLineParser$Companion_getInstance().parseA_puj7f4$(href_0, desc_0));
+        lastStart_2 = foundMatch_2.range.endInclusive + 1 | 0;
+        match_2 = foundMatch_2.next();
+      }
+       while (lastStart_2 < length_2 && match_2 != null);
+      if (lastStart_2 < length_2) {
+        sb_2.append_ezbsdh$($receiver_1, lastStart_2, length_2);
+      }
+      replace_20wsma$result_2 = sb_2.toString();
+    }
+     while (false);
+    return replace_20wsma$result_2;
   };
   Core.prototype.transSingleLine_kbv4f8$_0 = function (source) {
     var out = source;
@@ -78,7 +170,7 @@
   };
   Core.prototype.transBlockquote_brwz8p$_0 = function (source) {
     var tmp$;
-    var destination = ArrayList_init(collectionSizeOrDefault(source, 10));
+    var destination = ArrayList_init_0(collectionSizeOrDefault(source, 10));
     var tmp$_0;
     tmp$_0 = source.iterator();
     while (tmp$_0.hasNext()) {
@@ -89,7 +181,7 @@
       if (equals(item.type(), Type$Companion_getInstance().TYPE_NORMAL)) {
         Kotlin.isType(tmp$_2 = item, UnObject) ? tmp$_2 : throwCCE();
         var src = item.content;
-        var result = Core$Companion_getInstance().REGEX_BLOCKQUOTE.find_905azu$(src);
+        var result = MdRegex$Companion_getInstance().REGEX_BLOCKQUOTE.find_905azu$(src);
         if (result != null) {
           transform$result = new BlockquoteObject(result.groupValues.get_za3lpa$(1));
         }
@@ -107,7 +199,7 @@
   Core.prototype.transHr_7au442$_0 = function (source) {
     var tmp$;
     var list = source;
-    var destination = ArrayList_init(collectionSizeOrDefault(list, 10));
+    var destination = ArrayList_init_0(collectionSizeOrDefault(list, 10));
     var tmp$_0;
     tmp$_0 = list.iterator();
     while (tmp$_0.hasNext()) {
@@ -118,9 +210,8 @@
       if (equals(item.type(), Type$Companion_getInstance().TYPE_NORMAL)) {
         Kotlin.isType(tmp$_2 = item, UnObject) ? tmp$_2 : throwCCE();
         var src = item.content;
-        var result = Core$Companion_getInstance().REGEX_HR.find_905azu$(src);
+        var result = MdRegex$Companion_getInstance().REGEX_HR.find_905azu$(src);
         if (result != null) {
-          println(result.value);
           transform$result = new HrObject();
         }
          else {
@@ -138,7 +229,7 @@
     var tmp$;
     var list = source;
     var $receiver = list;
-    var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
+    var destination = ArrayList_init_0(collectionSizeOrDefault($receiver, 10));
     var tmp$_0;
     tmp$_0 = $receiver.iterator();
     while (tmp$_0.hasNext()) {
@@ -149,10 +240,10 @@
       if (equals(item.type(), Type$Companion_getInstance().TYPE_NORMAL)) {
         Kotlin.isType(tmp$_2 = item, UnObject) ? tmp$_2 : throwCCE();
         var src = item.content;
-        var result = Core$Companion_getInstance().REGEX_TITLE.find_905azu$(src);
+        var result = MdRegex$Companion_getInstance().REGEX_TITLE.find_905azu$(src);
         if (result != null) {
-          var grade = count(Core$Companion_getInstance().REGEX_TITLE_GRADE.findAll_905azu$(src));
-          var content = ensureNotNull(Core$Companion_getInstance().REGEX_TITLE_CONTENT.find_905azu$(src)).groupValues.get_za3lpa$(1);
+          var grade = count(MdRegex$Companion_getInstance().REGEX_TITLE_GRADE.findAll_905azu$(src));
+          var content = ensureNotNull(MdRegex$Companion_getInstance().REGEX_TITLE_CONTENT.find_905azu$(src)).groupValues.get_za3lpa$(1);
           transform$result = new TitleObject(grade, content);
         }
          else {
@@ -174,9 +265,9 @@
   };
   Core.prototype.transCode_rphq5x$_0 = function (source) {
     var code = {v: false};
-    var res = {v: ArrayList_init_0()};
-    var content = {v: ArrayList_init_0()};
-    var destination = ArrayList_init(collectionSizeOrDefault(source, 10));
+    var res = {v: ArrayList_init()};
+    var content = {v: ArrayList_init()};
+    var destination = ArrayList_init_0(collectionSizeOrDefault(source, 10));
     var tmp$;
     tmp$ = source.iterator();
     while (tmp$.hasNext()) {
@@ -185,7 +276,7 @@
       var transform$result;
       var tmp$_1;
       if (equals(item.type(), Type$Companion_getInstance().TYPE_NORMAL)) {
-        if (Core$Companion_getInstance().REGEX_CODE.find_905azu$((Kotlin.isType(tmp$_1 = item, UnObject) ? tmp$_1 : throwCCE()).content) != null) {
+        if (MdRegex$Companion_getInstance().REGEX_CODE.find_905azu$((Kotlin.isType(tmp$_1 = item, UnObject) ? tmp$_1 : throwCCE()).content) != null) {
           transform$result = (code.v = !code.v, Unit);
         }
          else {
@@ -195,7 +286,7 @@
            else {
             if (content.v.size !== 0) {
               res.v.add_11rb$(new CodeObject(joinToString(content.v, '')));
-              transform$result = (content.v = ArrayList_init_0(), Unit);
+              transform$result = (content.v = ArrayList_init(), Unit);
             }
              else {
               transform$result = res.v.add_11rb$(item);
@@ -212,9 +303,9 @@
     return res.v;
   };
   Core.prototype.transObjects_qjosur$_0 = function (source) {
-    var list = {v: ArrayList_init_0()};
+    var list = {v: ArrayList_init()};
     var tmp$;
-    tmp$ = Core$Companion_getInstance().REGEX_LINE.findAll_905azu$(source).iterator();
+    tmp$ = MdRegex$Companion_getInstance().REGEX_LINE.findAll_905azu$(source).iterator();
     while (tmp$.hasNext()) {
       var element = tmp$.next();
       list.v.add_11rb$(new UnObject(element.value));
@@ -222,22 +313,22 @@
     return list.v;
   };
   Core.prototype.transList_sfx2l6$_0 = function (source) {
-    var res = {v: ArrayList_init_0()};
+    var res = {v: ArrayList_init()};
     var lastType = {v: Type$Companion_getInstance().TYPE_NORMAL};
     var listObject = {v: new ListObject()};
     var unObject = {v: null};
-    var destination = ArrayList_init(collectionSizeOrDefault(source, 10));
+    var destination = ArrayList_init_0(collectionSizeOrDefault(source, 10));
     var tmp$;
     tmp$ = source.iterator();
     while (tmp$.hasNext()) {
       var item = tmp$.next();
       var tmp$_0 = destination.add_11rb$;
       var tmp$_1;
-      var result = Core$Companion_getInstance().REGEX_LIST.find_905azu$((Kotlin.isType(tmp$_1 = item, UnObject) ? tmp$_1 : throwCCE()).content);
+      var result = MdRegex$Companion_getInstance().REGEX_LIST.find_905azu$((Kotlin.isType(tmp$_1 = item, UnObject) ? tmp$_1 : throwCCE()).content);
       unObject.v = item;
       if (result != null) {
-        var grade = this.indexOfReg_h2a3m1$_0(Core$Companion_getInstance().REGEX_LIST_GRADE, result);
-        var content = ensureNotNull(Core$Companion_getInstance().REGEX_LIST_CONTENT.find_905azu$(result.value)).groupValues.get_za3lpa$(1);
+        var grade = this.indexOfReg_h2a3m1$_0(MdRegex$Companion_getInstance().REGEX_LIST_GRADE, result);
+        var content = ensureNotNull(MdRegex$Companion_getInstance().REGEX_LIST_CONTENT.find_905azu$(result.value)).groupValues.get_za3lpa$(1);
         listObject.v.push_19mbxw$(grade, content);
         lastType.v = Type$Companion_getInstance().TYPE_LIST;
       }
@@ -263,13 +354,47 @@
     simpleName: 'Core',
     interfaces: []
   };
+  function MdRegex() {
+    MdRegex$Companion_getInstance();
+  }
+  function MdRegex$Companion() {
+    MdRegex$Companion_instance = this;
+    this.REGEX_LINE = Regex_init('.*?((\r)?\n)');
+    this.REGEX_LIST = Regex_init('^( )*- .*');
+    this.REGEX_LIST_GRADE = Regex_init('- ');
+    this.REGEX_LIST_CONTENT = Regex_init('- (.*)');
+    this.REGEX_CODE = Regex_init('^```');
+    this.REGEX_TITLE = Regex_init('^#+ ');
+    this.REGEX_TITLE_GRADE = Regex_init('#');
+    this.REGEX_TITLE_CONTENT = Regex_init('^#+ (.*)');
+    this.REGEX_HR = Regex_init('^-----*(\n)');
+    this.REGEX_BLOCKQUOTE = Regex_init('^>(.*)');
+    this.REGEX_STRONG = Regex_init('(\\*\\*(.*)\\*\\*)|(__(.*)__)');
+    this.REGEX_EM = Regex_init('(\\*(.*)\\*)|(_(.*)_)');
+    this.REGEX_IMAGE = Regex_init('\\!\\[(.*?)\\]\\((.*?)\\)');
+    this.REGEX_HYPER_LINK = Regex_init('\\[(.*?)\\]\\((.*?)\\)');
+  }
+  MdRegex$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var MdRegex$Companion_instance = null;
+  function MdRegex$Companion_getInstance() {
+    if (MdRegex$Companion_instance === null) {
+      new MdRegex$Companion();
+    }
+    return MdRegex$Companion_instance;
+  }
+  MdRegex.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'MdRegex',
+    interfaces: []
+  };
   function JsCore() {
   }
   JsCore.prototype.trans = function (source) {
     return (new Core()).trans_61zpoe$(source);
-  };
-  JsCore.prototype.ListParser = function () {
-    return this.ListParser();
   };
   JsCore.$metadata$ = {
     kind: Kind_CLASS,
@@ -325,7 +450,7 @@
   };
   function ListObject() {
     MarkDownObject.call(this);
-    this.list = ArrayList_init_0();
+    this.list = ArrayList_init();
   }
   ListObject.prototype.push_19mbxw$ = function (grade, content) {
     this.list.add_11rb$(new ListObject$ListItem(grade, content));
@@ -589,6 +714,70 @@
     simpleName: 'HrParser',
     interfaces: [BaseParser]
   };
+  function InLineParser() {
+    InLineParser$Companion_getInstance();
+    this.strongStart = InLineParser$Companion_getInstance().DEFAULT_STRONG_START;
+    this.strongEnd = InLineParser$Companion_getInstance().DEFAULT_STRONG_END;
+    this.emStart = InLineParser$Companion_getInstance().DEFAULT_EM_START;
+    this.emEnd = InLineParser$Companion_getInstance().DEFAULT_EM_END;
+    this.templateImg = InLineParser$Companion_getInstance().DEFAULT_TEMPLATE_IMG;
+    this.templateA = InLineParser$Companion_getInstance().DEFAULT_TEMPLATE_A;
+  }
+  function InLineParser$Companion() {
+    InLineParser$Companion_instance = this;
+    this.DEFAULT_STRONG_START = ' <strong>';
+    this.DEFAULT_STRONG_END = '<\/strong> ';
+    this.DEFAULT_EM_START = ' <em>';
+    this.DEFAULT_EM_END = '<\/em> ';
+    this.TEMPLATE_SRC = '$(src)';
+    this.TEMPLATE_DESC = '$(desc)';
+    this.DEFAULT_TEMPLATE_IMG = '<img src="$(src)" alt="$(desc)"/> ';
+    this.DEFAULT_TEMPLATE_A = '<a href="$(src)" > $(desc) <\/a> ';
+    this.sInstance_mch49l$_0 = null;
+  }
+  Object.defineProperty(InLineParser$Companion.prototype, 'sInstance_0', {
+    get: function () {
+      if (this.sInstance_mch49l$_0 == null) {
+        this.sInstance_mch49l$_0 = new InLineParser();
+      }
+      return this.sInstance_mch49l$_0;
+    },
+    set: function (sInstance) {
+      this.sInstance_mch49l$_0 = sInstance;
+    }
+  });
+  InLineParser$Companion.prototype.instance = function () {
+    return ensureNotNull(this.sInstance_0);
+  };
+  InLineParser$Companion.prototype.parseStrong_61zpoe$ = function (content) {
+    return this.instance().strongStart + content + this.instance().strongEnd;
+  };
+  InLineParser$Companion.prototype.parseEm_61zpoe$ = function (content) {
+    return this.instance().emStart + content + this.instance().emEnd;
+  };
+  InLineParser$Companion.prototype.parseA_puj7f4$ = function (href, desc) {
+    return replace(replace(this.instance().templateA, this.TEMPLATE_SRC, href), this.TEMPLATE_DESC, desc);
+  };
+  InLineParser$Companion.prototype.parseImg_puj7f4$ = function (src, alt) {
+    return replace(replace(this.instance().templateImg, this.TEMPLATE_SRC, src), this.TEMPLATE_DESC, alt);
+  };
+  InLineParser$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var InLineParser$Companion_instance = null;
+  function InLineParser$Companion_getInstance() {
+    if (InLineParser$Companion_instance === null) {
+      new InLineParser$Companion();
+    }
+    return InLineParser$Companion_instance;
+  }
+  InLineParser.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'InLineParser',
+    interfaces: [BaseParser]
+  };
   function ListParser() {
     ListParser$Companion_getInstance();
     this.listStart = ListParser$Companion_getInstance().DEFAULT_LIST_START;
@@ -620,11 +809,11 @@
   };
   ListParser$Companion.prototype.parse_cjsuj2$ = function (source) {
     var tmp$;
-    var list = {v: ArrayList_init_0()};
-    var stack = {v: ArrayList_init_0()};
+    var list = {v: ArrayList_init()};
+    var stack = {v: ArrayList_init()};
     var out = {v: ''};
     var $receiver = Kotlin.isType(tmp$ = source.data(), MutableList) ? tmp$ : throwCCE();
-    var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
+    var destination = ArrayList_init_0(collectionSizeOrDefault($receiver, 10));
     var tmp$_0;
     tmp$_0 = $receiver.iterator();
     while (tmp$_0.hasNext()) {
@@ -643,7 +832,7 @@
         stack.v.add_11rb$(item.grade);
       }
        else if (last_0.v > item.grade) {
-        var arr = {v: ArrayList_init_0()};
+        var arr = {v: ArrayList_init()};
         var grade = {v: item.grade};
         var tmp$_3;
         tmp$_3 = list.v.iterator();
@@ -666,8 +855,8 @@
       out.v = out.v + this.instance().listEnd;
       stack.v.removeAt_za3lpa$(stack.v.size - 1 | 0);
     }
-    stack.v = ArrayList_init_0();
-    list.v = ArrayList_init_0();
+    stack.v = ArrayList_init();
+    list.v = ArrayList_init();
     return out.v;
   };
   ListParser$Companion.$metadata$ = {
@@ -700,7 +889,7 @@
     TitleParser$Companion_instance = this;
     this.GRADE_TEMPLATE = '$(grade)';
     this.CONTENT_TEMPLATE = '$(content)';
-    this.DEFAULT_TEMPLATE = '<h$(grade) id=$(content)>$(content)<\/h$(grade)>';
+    this.DEFAULT_TEMPLATE = '<h$(grade) id="$(content)">$(content)<\/h$(grade)>';
     this.sInstance_qx12ha$_0 = null;
   }
   Object.defineProperty(TitleParser$Companion.prototype, 'sInstance_0', {
@@ -737,13 +926,14 @@
     simpleName: 'TitleParser',
     interfaces: [BaseParser]
   };
-  Object.defineProperty(Core, 'Companion', {
-    get: Core$Companion_getInstance
-  });
   var package$xyz = _.xyz || (_.xyz = {});
   var package$kfdykme = package$xyz.kfdykme || (package$xyz.kfdykme = {});
   var package$kfmd = package$kfdykme.kfmd || (package$kfdykme.kfmd = {});
   package$kfmd.Core = Core;
+  Object.defineProperty(MdRegex, 'Companion', {
+    get: MdRegex$Companion_getInstance
+  });
+  package$kfmd.MdRegex = MdRegex;
   var package$js = package$kfmd.js || (package$kfmd.js = {});
   package$js.JsCore = JsCore;
   var package$model = package$kfmd.model || (package$kfmd.model = {});
@@ -777,6 +967,10 @@
     get: HrParser$Companion_getInstance
   });
   package$parser.HrParser = HrParser;
+  Object.defineProperty(InLineParser, 'Companion', {
+    get: InLineParser$Companion_getInstance
+  });
+  package$parser.InLineParser = InLineParser;
   Object.defineProperty(ListParser, 'Companion', {
     get: ListParser$Companion_getInstance
   });

@@ -1,34 +1,52 @@
 package xyz.kfdykme.kfmd
 
 import xyz.kfdykme.kfmd.model.*
+import xyz.kfdykme.kfmd.parser.InLineParser
 
 
 open class Core {
 
 
-    companion object {
-
-        val REGEX_LINE =  Regex(".*?((\r)?\n)")
-        var REGEX_LIST = Regex("^( )*- .*")
-        var REGEX_LIST_GRADE = Regex("- ")
-        var REGEX_LIST_CONTENT = Regex("- (.*)")
-        var REGEX_CODE = Regex("^```")
-        var REGEX_TITLE = Regex("^#+ ")
-        var REGEX_TITLE_GRADE = Regex("#")
-        var REGEX_TITLE_CONTENT = Regex("^#+ (.*)")
-        var REGEX_HR = Regex("^-----*(\n)")
-        var REGEX_BLOCKQUOTE = Regex("^>(.*)")
-    }
-
 
     fun trans(source: String): String {
-        var out = ""
-
         var res = transObjects(source)
         res = transMultLine(res)
         res = transSingleLine(res)
-        return res.joinToString("")
+        return transInLine(res.joinToString(""))
     }
+
+
+    /**
+     * @method transInline 弃用
+     */
+    private fun transInLine(source: MutableList<MarkDownObject>) :MutableList<MarkDownObject> {
+        return mutableListOf()
+    }
+
+    /**
+     * @method transInline
+     * @param source {String} 输入字符串
+     * @return 将行内md标签进行处理后返回
+     */
+    private fun transInLine(source: String) : String {
+
+        return  source.replace(MdRegex.REGEX_STRONG, transform = {
+            var content = if (it.groupValues[1] != "" ) it.groupValues[2] else it.groupValues[4]
+            return@replace InLineParser.parseStrong(content)
+        }).replace(MdRegex.REGEX_EM, transform = {
+            var content = if (it.groupValues[1] != "" ) it.groupValues[2] else it.groupValues[4]
+            return@replace InLineParser.parseEm(content)
+        }).replace(MdRegex.REGEX_IMAGE, transform = {
+            var href = it.groupValues[2]
+            var desc = it.groupValues[1]
+            return@replace InLineParser.parseImg(href,desc)
+        }).replace(MdRegex.REGEX_HYPER_LINK, transform = {
+            var href = it.groupValues[2]
+            var desc = it.groupValues[1]
+            return@replace InLineParser.parseA(href,desc)
+        })
+    }
+
 
 
     private fun transSingleLine(source: MutableList<MarkDownObject>) :MutableList<MarkDownObject> {
@@ -47,7 +65,7 @@ open class Core {
             if (it.type().equals(Type.TYPE_NORMAL)) {
                 it as UnObject
                 var src = it.content
-                var result = REGEX_BLOCKQUOTE.find(src)
+                var result = MdRegex.REGEX_BLOCKQUOTE.find(src)
 
                 if (result != null) {
                     BlockquoteObject(result.groupValues[1])
@@ -68,9 +86,8 @@ open class Core {
             if (it.type().equals(Type.TYPE_NORMAL)) {
                 it as UnObject
                 var src  =it.content
-                var result = REGEX_HR.find(src)
+                var result = MdRegex.REGEX_HR.find(src)
                 if (result != null) {
-                    println(result.value)
                     HrObject()
                 } else {
                     it
@@ -90,11 +107,11 @@ open class Core {
             if (it.type().equals(Type.TYPE_NORMAL)) {
                 it as UnObject
                 var src = it.content
-                var result = REGEX_TITLE.find(src)
+                var result = MdRegex.REGEX_TITLE.find(src)
 
                 if (result != null) {
-                    var grade = REGEX_TITLE_GRADE.findAll(src).count()
-                    var content = REGEX_TITLE_CONTENT.find(src)!!.groupValues[1]
+                    var grade = MdRegex.REGEX_TITLE_GRADE.findAll(src).count()
+                    var content = MdRegex.REGEX_TITLE_CONTENT.find(src)!!.groupValues[1]
 
                     TitleObject(grade, content)
 
@@ -127,7 +144,7 @@ open class Core {
         var content = mutableListOf<String>()
         source.map {
             if (it.type().equals(Type.TYPE_NORMAL)) {
-                if (REGEX_CODE.find((it as UnObject).content) != null) {
+                if (MdRegex.REGEX_CODE.find((it as UnObject).content) != null) {
                     code = !code
 
 
@@ -161,7 +178,7 @@ open class Core {
 
     private fun transObjects(source: String) :MutableList<MarkDownObject> {
         var list = mutableListOf<MarkDownObject>()
-        REGEX_LINE
+        MdRegex.REGEX_LINE
                 .findAll(source)
                 .forEach {
                     list.add(UnObject(it.value))
@@ -177,12 +194,12 @@ open class Core {
         var unObject :UnObject
 
         source.map {
-            var result = REGEX_LIST.find((it as UnObject).content)
+            var result = MdRegex.REGEX_LIST.find((it as UnObject).content)
 
             unObject = it
             if (result != null) {
-                var grade = indexOfReg(REGEX_LIST_GRADE, result)
-                var content = REGEX_LIST_CONTENT.find(result.value)!!.groupValues[1]
+                var grade = indexOfReg(MdRegex.REGEX_LIST_GRADE, result)
+                var content = MdRegex.REGEX_LIST_CONTENT.find(result.value)!!.groupValues[1]
 
                 listObject.push(grade, content)
 
