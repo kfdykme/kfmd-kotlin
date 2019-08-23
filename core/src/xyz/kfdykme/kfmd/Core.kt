@@ -6,15 +6,27 @@ import xyz.kfdykme.kfmd.parser.InLineParser
 
 open class Core {
 
-
+    var containorClassName = ""
+    var containorTagName = "div"
 
     fun trans(source: String): String {
-        var res = transObjects(source)
+
+        var res = transObjects(source + "\n")
         res = transMultLine(res)
         res = transSingleLine(res)
-        return transInLine(res.joinToString(""))
+        return "<$containorTagName class=\"$containorClassName\" >${transInLine(res.joinToString(""))}</$containorTagName>"
     }
 
+
+    fun setContainorClass (name: String) :Core {
+        this.containorClassName = name
+        return this
+    }
+
+    fun setContainorTag (name: String) :Core{
+        this.containorTagName = name
+        return this
+    }
 
     /**
      * @method transInline 弃用
