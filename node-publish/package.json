@@ -6,7 +6,8 @@
   "scripts": {
     "build": "node test/test.js",
     "buildcss": "node test/css.js",
-    "test": "npm run buildcss && npm run build"
+    "test": "npm run buildcss && npm run build",
+    "pack": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,9 @@
   "homepage": "https://github.com/kfdykme/kfmd-kotlin#readme",
   "dependencies": {
     "kotlin": "^1.3.31"
+  },
+  "devDependencies": {
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.7"
   }
 }

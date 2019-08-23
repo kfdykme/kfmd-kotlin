@@ -35,12 +35,22 @@
   StrongObject.prototype = Object.create(InlineTransObject.prototype);
   StrongObject.prototype.constructor = StrongObject;
   function Core() {
+    this.containorClassName = '';
+    this.containorTagName = 'div';
   }
   Core.prototype.trans_61zpoe$ = function (source) {
-    var res = this.transObjects_qjosur$_0(source);
+    var res = this.transObjects_qjosur$_0(source + '\n');
     res = this.transMultLine_lb8eyc$_0(res);
     res = this.transSingleLine_kbv4f8$_0(res);
-    return this.transInLine_h3ypr2$_0(joinToString(res, ''));
+    return '<' + this.containorTagName + ' class=' + '"' + this.containorClassName + '"' + ' >' + this.transInLine_h3ypr2$_0(joinToString(res, '')) + '<\/' + this.containorTagName + '>';
+  };
+  Core.prototype.setContainorClass_61zpoe$ = function (name) {
+    this.containorClassName = name;
+    return this;
+  };
+  Core.prototype.setContainorTag_61zpoe$ = function (name) {
+    this.containorTagName = name;
+    return this;
   };
   Core.prototype.transInLine_si6qm9$_0 = function (source) {
     return ArrayList_init();
@@ -392,9 +402,18 @@
     interfaces: []
   };
   function JsCore() {
+    this.core = new Core();
   }
   JsCore.prototype.trans = function (source) {
-    return (new Core()).trans_61zpoe$(source);
+    return this.core.trans_61zpoe$(source);
+  };
+  JsCore.prototype.setContainorClass = function (name) {
+    this.core = this.core.setContainorClass_61zpoe$(name);
+    return this;
+  };
+  JsCore.prototype.setContainorTag = function (name) {
+    this.core = this.core.setContainorTag_61zpoe$(name);
+    return this;
   };
   JsCore.$metadata$ = {
     kind: Kind_CLASS,

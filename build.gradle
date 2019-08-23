@@ -24,6 +24,8 @@ dependencies {
 
     // Use the Kotlin JUnit integration.
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
+    
+    
 }
 
 task copyKotlin(type: Copy, group: 'custom') {
@@ -69,7 +71,7 @@ task cleanBuild ( group: 'custom'){
     }
 }
 
-task buildKotlin() {
+task buildKotlin( group: 'build') {
     dependsOn cleanBuild
     dependsOn copyKotlin
     dependsOn complieKotlin
@@ -77,7 +79,7 @@ task buildKotlin() {
     tasks.findByName('complieKotlin').mustRunAfter 'copyKotlin'
 }
 
-task buildJs () {
+task buildJs (group: 'build') {
     dependsOn cleanBuild
     dependsOn copyKotlin
     dependsOn copyJs

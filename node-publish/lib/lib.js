@@ -10,9 +10,8 @@ const JsCore = kfmd.xyz.kfdykme.kfmd.js.JsCore
  * @return {string} html格式的文本
  * @desc 把string 转化为 html
  */
-module.exports.string2mdhtml = function (str) {
-  str = (new JsCore).trans(str)
-  return str
+module.exports.Core = function () {
+  return new JsCore
 }
 
-module.exports.css = css
+module.exports.Css = css

@@ -1,8 +1,11 @@
-const kfmd = require('../src/index')
+
+const {Core, Css} = require('../src/index')
 const fs = require('fs')
 
-console.info(fs.readFileSync)
+var core = Core()
 var result = fs.readFileSync('./test/test.md') + ''
-var html = kfmd.string2mdhtml(result)
-html = html + '<style>\n' + kfmd.css.base() + '\n</style>'
+
+var html = core.setContainorClass("kfmd-containor")
+              .trans(result)
+html = html + '<style>\n' + Css.base() + '\n</style>'
 console.info(fs.writeFileSync('./index.html', html))

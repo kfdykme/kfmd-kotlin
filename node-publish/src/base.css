@@ -1,5 +1,17 @@
 h1, h2, h3, h4, h5, h6, li, p {
-  color: #003456;
+  color: #333333;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  padding-left: 4px;
+}
+
+h3, h4, h5 {
+  padding-left: 8px;
 }
 
 ul, ol {
@@ -19,5 +31,9 @@ blockquote p {
 
 a {
   text-decoration: none;
-  color: deeppink;
+  color: #11819e;
+}
+
+.kfmd-containor {
+  padding: 16px;
 }
