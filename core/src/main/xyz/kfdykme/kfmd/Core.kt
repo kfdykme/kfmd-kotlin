@@ -9,6 +9,7 @@ open class Core {
     var containorClassName = ""
     var containorTagName = "div"
 
+
     fun trans(source: String): String {
 
         var res = transObjects(source + "\n")
